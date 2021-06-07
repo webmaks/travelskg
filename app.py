@@ -257,7 +257,6 @@ def editUser():
         return  jsonify(success)
 
 # Getting all trips
-# Getting all users
 @app.route("/api/get/trips")
 def getAllTrips():
    cur = db.cursor()
@@ -286,6 +285,43 @@ def getAllTrips():
        content = {}
    cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
+# Adding new trip
+# Adding new user
+@app.route("/api/add/trip", methods = ['POST', 'GET'])
+def addTrip():
+    if request.method == 'GET':
+        return "This method is not allowed"
+    if request.method == 'POST':
+        request_data = request.get_json()
+
+        description = request_data['description']
+        location = request_data['location']
+        region = request_data['region']
+        type = request_data['type']
+        duration_time = request_data['duration_time']
+        duration_route = request_data['duration_route']
+        difficulty = request_data['difficulty']
+        climb = request_data['climb']
+        requirement = request_data['requirement']
+        included = request_data['included']
+        info_mobile = request_data['info_mobile']
+        warning = request_data['warning']
+
+        cur = db.cursor()
+        cur.execute(''' INSERT INTO  users
+                    (description,location,region,type,
+                    duration_time,duration_route,difficulty,climb,
+                    requirement,included,info_mobile,warning)
+                    VALUES (%s,%s,%s,%s,
+                            %s,%s,%s,%s,
+                            %s,%s,%s,%s) ''',
+                    (description,location,region,type,
+                    duration_time,duration_route,difficulty,climb,
+                    requirement,included,info_mobile,warning))
+        db.commit()
+        cur.close()
+        return  jsonify(success)
 
 
 
