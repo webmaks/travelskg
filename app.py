@@ -85,23 +85,23 @@ def editCompany(id):
     if request.method == 'POST':
         request_data = request.get_json()
 
-        if "company_name" in request_data:
-            company_name = request_data['company_name']
+        if "name" in request_data:
+            company_name = request_data['name']
         else:
             return jsonify({"error": "Forgot something like na...",}), 403
 
-        if "company_desc" in request_data:
-            company_desc = request_data['company_desc']
+        if "description" in request_data:
+            company_desc = request_data['description']
         else:
             return jsonify({"error": "Forgot something like lo...",}), 403
 
-        if "company_mob" in request_data:
-            company_mob = request_data['company_mob']
+        if "mobile" in request_data:
+            company_mob = request_data['mobile']
         else:
             return jsonify({"error": "Forgot something like lo...",}), 403
 
-        if "company_inst" in request_data:
-            company_inst = request_data['company_inst']
+        if "instagram" in request_data:
+            company_inst = request_data['instagram']
         else:
             return jsonify({"error": "Forgot something like lo...",}), 403
         cur = db.cursor()
