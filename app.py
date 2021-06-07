@@ -48,25 +48,25 @@ def addCompany():
     if request.method == 'POST':
         request_data = request.get_json()
 
-        if "company_name" in request_data:
-            company_name = request_data['company_name']
+        if "name" in request_data:
+            company_name = request_data['name']
         else:
             return jsonify({"error": "Forgot something like na...",}), 403
 
-        if "company_desc" in request_data:
-            company_desc = request_data['company_desc']
+        if "desc" in request_data:
+            company_desc = request_data['desc']
         else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
+            return jsonify({"error": "Forgot something like de...",}), 403
 
-        if "company_mob" in request_data:
-            company_mob = request_data['company_mob']
+        if "mob" in request_data:
+            company_mob = request_data['mob']
         else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
+            return jsonify({"error": "Forgot something like mo...",}), 403
 
-        if "company_inst" in request_data:
-            company_inst = request_data['company_inst']
+        if "inst" in request_data:
+            company_inst = request_data['inst']
         else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
+            return jsonify({"error": "Forgot something like in...",}), 403
 
         cur = db.cursor()
         cur.execute(''' INSERT INTO company
