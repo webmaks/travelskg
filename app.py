@@ -166,7 +166,6 @@ def getUser(uid):
    cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
-
 # Adding new user
 @app.route("/api/add/user", methods = ['POST', 'GET'])
 def addUser():
@@ -257,6 +256,36 @@ def editUser():
         cur.close()
         return  jsonify(success)
 
+# Getting all trips
+# Getting all users
+@app.route("/api/get/trips")
+def getAllTrips():
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM  trip
+               ''')
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                    'description': result[1],
+                    'location': result[2],
+                    'region': result[3],
+                    'type': result[4],
+                    'duration_time': result[5],
+                    'duration_route': result[6],
+                    'difficulty': result[7],
+                    'climb': result[8],
+                    'requirement': result[9],
+                    'included': result[10],
+                    'info_mobile': result[11],
+                    'warning': result[12]
+                  }
+       payload.append(content)
+       content = {}
+   cur.close()
+   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 
 
