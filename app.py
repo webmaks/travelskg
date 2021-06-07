@@ -209,17 +209,12 @@ def addUser():
         return  jsonify(success)
 
 # Edit user
-@app.route("/api/edit/user", methods = ['POST', 'GET'])
-def editUser():
+@app.route("/api/edit/user/<id>", methods = ['POST', 'GET'])
+def editUser(id):
     if request.method == 'GET':
         return "This method is not allowed"
     if request.method == 'POST':
         request_data = request.get_json()
-
-        if "id" in request_data:
-            user_id = request_data['id']
-        else:
-            return jsonify({"error": "Forgot something like id...",}), 403
 
         if "name" in request_data:
             user_name = request_data['name']
@@ -251,7 +246,7 @@ def editUser():
                     uid = %s,
                     avatar = %s,
                     type = %s WHERE id = %s ''',
-                    (user_name,user_surname,user_uid,user_avatar,user_type,user_id))
+                    (user_name,user_surname,user_uid,user_avatar,user_type,id))
         db.commit()
         cur.close()
         return  jsonify(success)
