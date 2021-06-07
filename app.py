@@ -224,7 +224,7 @@ def editUser(id):
         if "surname" in request_data:
             user_surname = request_data['surname']
         else:
-            return jsonify({"error": "Forgot something like na...",}), 403
+            return jsonify({"error": "Forgot something like su...",}), 403
 
         if "uid" in request_data:
             user_uid = request_data['uid']
