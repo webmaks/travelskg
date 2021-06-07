@@ -142,6 +142,31 @@ def getAllUsers():
    cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+# Get user by uid
+@app.route("/api/get/user/<uid>")
+def getUser(uid):
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM  users
+               WHERE uid=%s
+               ''',(uid,))
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                  'name': result[1],
+                  'surname': result[2],
+                  'uid': result[3],
+                  'avatar': result[4],
+                  'type': result[5]
+                  }
+       payload.append(content)
+       content = {}
+   cur.close()
+   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
+
 # Adding new user
 @app.route("/api/add/user", methods = ['POST', 'GET'])
 def addUser():
