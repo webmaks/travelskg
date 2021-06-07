@@ -53,18 +53,18 @@ def addCompany():
         else:
             return jsonify({"error": "Forgot something like na...",}), 403
 
-        if "desc" in request_data:
-            company_desc = request_data['desc']
+        if "description" in request_data:
+            company_desc = request_data['description']
         else:
             return jsonify({"error": "Forgot something like de...",}), 403
 
-        if "mob" in request_data:
-            company_mob = request_data['mob']
+        if "mobile" in request_data:
+            company_mob = request_data['mobile']
         else:
             return jsonify({"error": "Forgot something like mo...",}), 403
 
-        if "inst" in request_data:
-            company_inst = request_data['inst']
+        if "instagram" in request_data:
+            company_inst = request_data['instagram']
         else:
             return jsonify({"error": "Forgot something like in...",}), 403
 
