@@ -77,18 +77,13 @@ def addCompany():
         cur.close()
         return f"Done"
 
-# Eding new company
-@app.route("/api/edit/company", methods = ['POST', 'GET'])
-def editCompany():
+# Eding company
+@app.route("/api/edit/company/<id>", methods = ['POST', 'GET'])
+def editCompany(id):
     if request.method == 'GET':
         return "This method is not allowed"
     if request.method == 'POST':
         request_data = request.get_json()
-
-        if "company_id" in request_data:
-            company_id = request_data['company_id']
-        else:
-            return jsonify({"error": "Forgot something like id...",}), 403
 
         if "company_name" in request_data:
             company_name = request_data['company_name']
@@ -114,7 +109,7 @@ def editCompany():
                     description = %s,
                     mobile = %s,
                     instagram = %s WHERE id = %s ''',
-                    (company_name,company_desc,company_mob,company_inst,company_id))
+                    (company_name,company_desc,company_mob,company_inst,id))
         db.commit()
         cur.close()
         return f"Done"
