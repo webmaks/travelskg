@@ -143,7 +143,7 @@ def getUser(uid):
    cur = db.cursor()
    cur.execute('''
                SELECT * FROM  users
-               WHERE uid=%s
+               WHERE uid=%s LIMIT 1
                ''',(uid,))
    rv = cur.fetchall()
    payload = []
