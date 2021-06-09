@@ -159,7 +159,7 @@ def getUser(uid):
        payload.append(content)
        content = {}
    cur.close()
-   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+   return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new user
 @app.route("/api/add/user", methods = ['POST', 'GET'])
