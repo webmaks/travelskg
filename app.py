@@ -236,7 +236,7 @@ def editUser(id):
         else:
             return jsonify({"error": "Forgot something like lo...",}), 403
         cur = db.cursor()
-        cur.execute(''' UPDATE company SET name = %s,
+        cur.execute(''' UPDATE users SET name = %s,
                     surname = %s,
                     uid = %s,
                     avatar = %s,
