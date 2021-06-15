@@ -40,6 +40,28 @@ def getAllCompany():
    cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+# Getting  company by id
+@app.route("/api/get/company/<id>")
+def getCompany(id):
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM company WHERE id = %s
+               ''',(id,))
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                  'name': result[1],
+                  'description': result[2],
+                  'mobile': result[3],
+                  'instagram': result[4]
+                  }
+       payload.append(content)
+       content = {}
+   cur.close()
+   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
 # Adding new company
 @app.route("/api/add/company", methods = ['POST', 'GET'])
 def addCompany():
