@@ -60,9 +60,9 @@ def getCompany(id):
        payload.append(content)
        content = {}
    cur.close()
-   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+   return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
-# Getting  company by USER's id
+# Getting  companies by USER's id
 @app.route("/api/get/company/user/<id>")
 def getCompanyUserID(id):
    cur = db.cursor()
@@ -322,7 +322,6 @@ def getAllTrips():
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new trip
-# Adding new user
 @app.route("/api/add/trip", methods = ['POST', 'GET'])
 def addTrip():
     if request.method == 'GET':
