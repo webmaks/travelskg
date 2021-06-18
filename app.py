@@ -157,7 +157,7 @@ def editCompany(id):
                     (company_name,company_desc,company_mob,company_inst,id))
         db.commit()
         cur.close()
-        return f"Done"
+        return jsonify(success)
 
 # Getting all users
 @app.route("/api/get/users")
