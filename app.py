@@ -180,6 +180,7 @@ def getAllUsers():
        payload.append(content)
        content = {}
    cur.close()
+   db.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Get user by uid
@@ -289,6 +290,7 @@ def editUser(id):
                     (user_name,user_surname,user_uid,user_avatar,user_type,id))
         db.commit()
         cur.close()
+        db.close()
         return  jsonify(success)
 
 # Getting all trips
