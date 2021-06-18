@@ -9,8 +9,7 @@ app.config.from_pyfile('config.py')
 DBNAME = app.config["DBNAME"]
 DBUSER = app.config["DBUSER"]
 DBPASS = app.config["DBPASS"]
-#db = mysql.connect(host='db', database=DBNAME, user=DBUSER, password=DBPASS, use_pure=False, buffered=True)
-db = mysql.connect(host='db', database=DBNAME, user=DBUSER, password=DBPASS, buffered=True)
+db = mysql.connect(host='db', database=DBNAME, user=DBUSER, password=DBPASS, use_pure=False, buffered=True)
 success = { "result": "Done"  }
 
 @app.route('/api')
@@ -38,6 +37,7 @@ def getAllCompany():
                   }
        payload.append(content)
        content = {}
+   cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Getting  company by id
@@ -59,6 +59,7 @@ def getCompany(id):
                   }
        payload.append(content)
        content = {}
+   cur.close()
    return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Getting  companies by USER's id
@@ -81,6 +82,7 @@ def getCompanyUserID(id):
                   }
        payload.append(content)
        content = {}
+   cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new company
@@ -117,6 +119,7 @@ def addCompany():
                     VALUES (%s,%s,%s,%s) ''',
                     (company_name,company_desc,company_mob,company_inst))
         db.commit()
+        cur.close()
         return f"Done"
 
 # Eding company
@@ -153,6 +156,7 @@ def editCompany(id):
                     instagram = %s WHERE id = %s ''',
                     (company_name,company_desc,company_mob,company_inst,id))
         db.commit()
+        cur.close()
         return jsonify(success)
 
 # Getting all users
@@ -175,6 +179,7 @@ def getAllUsers():
                   }
        payload.append(content)
        content = {}
+   cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Get user by uid
@@ -198,6 +203,7 @@ def getUser(uid):
                   }
        payload.append(content)
        content = {}
+   cur.close()
    return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new user
@@ -239,6 +245,7 @@ def addUser():
                     VALUES (%s,%s,%s,%s,%s) ''',
                     (user_name,user_surname,user_uid,user_avatar,user_type))
         db.commit()
+        cur.close()
         return  jsonify(success)
 
 # Edit user
@@ -281,6 +288,7 @@ def editUser(id):
                     type = %s WHERE id = %s ''',
                     (user_name,user_surname,user_uid,user_avatar,user_type,id))
         db.commit()
+        cur.close()
         return  jsonify(success)
 
 # Getting all trips
@@ -310,6 +318,7 @@ def getAllTrips():
                   }
        payload.append(content)
        content = {}
+   cur.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new trip
@@ -345,10 +354,11 @@ def addTrip():
                     duration_time,duration_route,difficulty,climb,
                     requirement,included,info_mobile,warning))
         db.commit()
+        cur.close()
         return  jsonify(success)
 
 
 
 
-app.run(host='0.0.0.0', port=7000)
+app.run(host='0.0.0.0', port=5000)
 
