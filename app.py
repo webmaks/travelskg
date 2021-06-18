@@ -9,7 +9,7 @@ app.config.from_pyfile('config.py')
 DBNAME = app.config["DBNAME"]
 DBUSER = app.config["DBUSER"]
 DBPASS = app.config["DBPASS"]
-db = mysql.connect(host='db', database=DBNAME, user=DBUSER, password=DBPASS, use_pure=False)
+db = mysql.connect(host='db', database=DBNAME, user=DBUSER, password=DBPASS, use_pure=False, buffered=True)
 success = { "result": "Done"  }
 
 @app.route('/api')
