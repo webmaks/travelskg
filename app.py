@@ -156,8 +156,12 @@ def editCompany(id):
         return jsonify(success)
 
 # Delete company 
-@app.route("/api/del/company/<id>")
+@app.route("/api/del/company/<id>", methods = ['POST', 'GET'])
 def delCompany(id):
+    
+    if request.method == 'GET':
+        return "This method is not allowed"
+
    cur = db.cursor()
    cur.execute('''
                DELETE FROM company WHERE id = %s)
