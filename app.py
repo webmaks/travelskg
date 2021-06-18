@@ -38,7 +38,6 @@ def getAllCompany():
        payload.append(content)
        content = {}
    cur.close()
-   db.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Getting  company by id
@@ -61,7 +60,6 @@ def getCompany(id):
        payload.append(content)
        content = {}
    cur.close()
-   db.close()
    return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Getting  companies by USER's id
@@ -69,7 +67,7 @@ def getCompany(id):
 def getCompanyUserID(id):
    cur = db.cursor()
    cur.execute('''
-               SELECT * FROM company 
+               SELECT * FROM company
                 WHERE id = (SELECT company_id FROM user_company WHERE user_id = %s)
                ''',(id,))
    rv = cur.fetchall()
@@ -85,7 +83,6 @@ def getCompanyUserID(id):
        payload.append(content)
        content = {}
    cur.close()
-   db.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new company
@@ -160,7 +157,6 @@ def editCompany(id):
                     (company_name,company_desc,company_mob,company_inst,id))
         db.commit()
         cur.close()
-        db.close()
         return jsonify(success)
 
 # Getting all users
@@ -184,7 +180,6 @@ def getAllUsers():
        payload.append(content)
        content = {}
    cur.close()
-   db.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Get user by uid
@@ -209,7 +204,6 @@ def getUser(uid):
        payload.append(content)
        content = {}
    cur.close()
-   db.close()
    return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new user
@@ -252,7 +246,6 @@ def addUser():
                     (user_name,user_surname,user_uid,user_avatar,user_type))
         db.commit()
         cur.close()
-        db.close()
         return  jsonify(success)
 
 # Edit user
@@ -296,7 +289,6 @@ def editUser(id):
                     (user_name,user_surname,user_uid,user_avatar,user_type,id))
         db.commit()
         cur.close()
-        db.close()
         return  jsonify(success)
 
 # Getting all trips
@@ -327,7 +319,6 @@ def getAllTrips():
        payload.append(content)
        content = {}
    cur.close()
-   db.close()
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Adding new trip
@@ -364,9 +355,7 @@ def addTrip():
                     requirement,included,info_mobile,warning))
         db.commit()
         cur.close()
-        db.close()
         return  jsonify(success)
-
 
 
 
