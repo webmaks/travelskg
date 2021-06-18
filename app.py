@@ -155,6 +155,15 @@ def editCompany(id):
         db.commit()
         return jsonify(success)
 
+# Delete company 
+@app.route("/api/del/company/<id>")
+def delCompany(id):
+   cur = db.cursor()
+   cur.execute('''
+               DELETE FROM company WHERE id = %s)
+               ''',(id,))
+   return jsonify(success), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
 # Getting all users
 @app.route("/api/get/users")
 def getAllUsers():
