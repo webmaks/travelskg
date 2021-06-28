@@ -333,7 +333,8 @@ def getAllTrips():
                     'requirement': result[9],
                     'included': result[10],
                     'info_mobile': result[11],
-                    'warning': result[12]
+                    'warning': result[12],
+                    'company_id': result[13]
                   }
        payload.append(content)
        content = {}
@@ -359,18 +360,19 @@ def addTrip():
         included = request_data['included']
         info_mobile = request_data['info_mobile']
         warning = request_data['warning']
+        company_id = request_data['company_id']
 
         cur = db.cursor()
         cur.execute(''' INSERT INTO  users
                     (description,location,region,type,
                     duration_time,duration_route,difficulty,climb,
-                    requirement,included,info_mobile,warning)
+                    requirement,included,info_mobile,warning,company_id)
                     VALUES (%s,%s,%s,%s,
                             %s,%s,%s,%s,
-                            %s,%s,%s,%s) ''',
+                            %s,%s,%s,%s,%s) ''',
                     (description,location,region,type,
                     duration_time,duration_route,difficulty,climb,
-                    requirement,included,info_mobile,warning))
+                    requirement,included,info_mobile,warning,company_id))
         db.commit()
         return  jsonify(success)
 
