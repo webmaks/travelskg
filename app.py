@@ -34,7 +34,8 @@ def getAllCompany():
                   'name': result[1],
                   'description': result[2],
                   'mobile': result[3],
-                  'instagram': result[4]
+                  'instagram': result[4],
+		  'user_id': result[5]
                   }
        payload.append(content)
        content = {}
@@ -55,7 +56,8 @@ def getCompany(id):
                   'name': result[1],
                   'description': result[2],
                   'mobile': result[3],
-                  'instagram': result[4]
+                  'instagram': result[4],
+		  'user_id': result[5]
                   }
        payload.append(content)
        content = {}
@@ -67,7 +69,7 @@ def getCompanyUserID(id):
    cur = db.cursor()
    cur.execute('''
                SELECT * FROM company
-                WHERE id = (SELECT company_id FROM user_company WHERE user_id = %s)
+                WHERE user_id = %s
                ''',(id,))
    rv = cur.fetchall()
    payload = []
@@ -77,7 +79,8 @@ def getCompanyUserID(id):
                   'name': result[1],
                   'description': result[2],
                   'mobile': result[3],
-                  'instagram': result[4]
+                  'instagram': result[4],
+		  'user_id': result[5]
                   }
        payload.append(content)
        content = {}
@@ -111,13 +114,19 @@ def addCompany():
         else:
             return jsonify({"error": "Forgot something like in...",}), 403
 
+        if "user_id" in request_data:
+            company_user_id = request_data['user_id']
+        else:
+            return jsonify({"error": "Forgot something like in...",}), 403
+
+
         cur = db.cursor()
         cur.execute(''' INSERT INTO company
-                    (name,description,mobile,instagram)
-                    VALUES (%s,%s,%s,%s) ''',
-                    (company_name,company_desc,company_mob,company_inst))
+                    (name,description,mobile,instagram,user_id)
+                    VALUES (%s,%s,%s,%s,%s) ''',
+                    (company_name,company_desc,company_mob,company_inst,company_user_id))
         db.commit()
-        return f"Done"
+        return jsonify(success)
 
 # Eding company
 @app.route("/api/edit/company/<id>", methods = ['POST', 'GET'])
@@ -146,26 +155,31 @@ def editCompany(id):
             company_inst = request_data['instagram']
         else:
             return jsonify({"error": "Forgot something like lo...",}), 403
+
+        if "user_id" in request_data:
+            company_user_id = request_data['user_id']
+        else:
+            return jsonify({"error": "Forgot something like in...",}), 403
+
         cur = db.cursor()
         cur.execute(''' UPDATE company SET name = %s,
                     description = %s,
                     mobile = %s,
-                    instagram = %s WHERE id = %s ''',
-                    (company_name,company_desc,company_mob,company_inst,id))
+                    instagram = %s,
+		    user_id = %s WHERE id = %s ''',
+                    (company_name,company_desc,company_mob,company_inst,company_user_id,id))
         db.commit()
         return jsonify(success)
 
-# Delete company 
+# Delete company
 @app.route("/api/del/company/<id>", methods = ['POST', 'GET'])
 def delCompany(id):
-    
-    if request.method == 'GET':
-        return "This method is not allowed"
+   if request.method == 'GET':
+      return "This method is not allowed"
 
    cur = db.cursor()
-   cur.execute('''
-               DELETE FROM company WHERE id = %s)
-               ''',(id,))
+   cur.execute('''DELETE FROM company WHERE id = %s ''',(id,))
+   db.commit()
    return jsonify(success), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Getting all users
