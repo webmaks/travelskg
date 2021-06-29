@@ -35,8 +35,7 @@ def getAllCompany():
                   'description': result[2],
                   'mobile': result[3],
                   'instagram': result[4],
-                  'user_id': result[5],
-                  'logo': result[6]
+		  'user_id': result[5]
                   }
        payload.append(content)
        content = {}
@@ -58,8 +57,7 @@ def getCompany(id):
                   'description': result[2],
                   'mobile': result[3],
                   'instagram': result[4],
-                  'user_id': result[5],
-                  'logo': result[6]
+		  'user_id': result[5]
                   }
        payload.append(content)
        content = {}
@@ -82,8 +80,7 @@ def getCompanyUserID(id):
                   'description': result[2],
                   'mobile': result[3],
                   'instagram': result[4],
-                  'user_id': result[5],
-                  'logo': result[6]
+		  'user_id': result[5]
                   }
        payload.append(content)
        content = {}
@@ -122,17 +119,12 @@ def addCompany():
         else:
             return jsonify({"error": "Forgot something like in...",}), 403
 
-        if "logo" in request_data:
-            company_logo = request_data['logo']
-        else:
-            return jsonify({"error": "Forgot something like in...",}), 403
-
 
         cur = db.cursor()
         cur.execute(''' INSERT INTO company
                     (name,description,mobile,instagram,user_id)
                     VALUES (%s,%s,%s,%s,%s) ''',
-                    (company_name,company_desc,company_mob,company_inst,company_user_id,company_logo))
+                    (company_name,company_desc,company_mob,company_inst,company_user_id))
         db.commit()
         return jsonify(success)
 
@@ -169,18 +161,13 @@ def editCompany(id):
         else:
             return jsonify({"error": "Forgot something like in...",}), 403
 
-        if "logo" in request_data:
-            company_logo = request_data['logo']
-        else:
-            return jsonify({"error": "Forgot something like in...",}), 403
-
         cur = db.cursor()
         cur.execute(''' UPDATE company SET name = %s,
                     description = %s,
                     mobile = %s,
                     instagram = %s,
-                    user_id = %s WHERE id = %s ''',
-                    (company_name,company_desc,company_mob,company_inst,company_user_id, company_logo,id))
+		    user_id = %s WHERE id = %s ''',
+                    (company_name,company_desc,company_mob,company_inst,company_user_id,id))
         db.commit()
         return jsonify(success)
 
@@ -347,8 +334,7 @@ def getAllTrips():
                     'included': result[10],
                     'info_mobile': result[11],
                     'warning': result[12],
-                    'company_id': result[13],
-                    'main_image': result[14]
+                    'company_id': result[13]
                   }
        payload.append(content)
        content = {}
@@ -378,8 +364,7 @@ def getAllTripsByCompanyID(id):
                     'included': result[10],
                     'info_mobile': result[11],
                     'warning': result[12],
-                    'company_id': result[13],
-                    'main_image': result[14]
+                    'company_id': result[13]
                   }
        payload.append(content)
        content = {}
@@ -406,19 +391,18 @@ def addTrip():
         info_mobile = request_data['info_mobile']
         warning = request_data['warning']
         company_id = request_data['company_id']
-        main_image = request_data['main_image']
 
         cur = db.cursor()
         cur.execute(''' INSERT INTO  users
                     (description,location,region,type,
                     duration_time,duration_route,difficulty,climb,
-                    requirement,included,info_mobile,warning,company_id,main_image)
+                    requirement,included,info_mobile,warning,company_id)
                     VALUES (%s,%s,%s,%s,
                             %s,%s,%s,%s,
-                            %s,%s,%s,%s,%s,%s) ''',
+                            %s,%s,%s,%s,%s) ''',
                     (description,location,region,type,
                     duration_time,duration_route,difficulty,climb,
-                    requirement,included,info_mobile,warning,company_id, main_image))
+                    requirement,included,info_mobile,warning,company_id))
         db.commit()
         return  jsonify(success)
 
