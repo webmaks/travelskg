@@ -409,7 +409,7 @@ def addTrip():
         main_image = request_data['main_image']
 
         cur = db.cursor()
-        cur.execute(''' INSERT INTO  users
+        cur.execute(''' INSERT INTO  trip
                     (description,location,region,type,
                     duration_time,duration_route,difficulty,climb,
                     requirement,included,info_mobile,warning,company_id,main_image)
