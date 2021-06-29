@@ -247,32 +247,11 @@ def addUser():
         return "This method is not allowed"
     if request.method == 'POST':
         request_data = request.get_json()
-
-        if "name" in request_data:
-            user_name = request_data['name']
-        else:
-            return jsonify({"error": "Forgot something like na...",}), 403
-
-        if "surname" in request_data:
-            user_surname = request_data['surname']
-        else:
-            return jsonify({"error": "Forgot something like surna...",}), 403
-
-        if "uid" in request_data:
-            user_uid = request_data['uid']
-        else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
-
-        if "avatar" in request_data:
-            user_avatar = request_data['avatar']
-        else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
-
-        if "type" in request_data:
-            user_type = request_data['type']
-        else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
-
+        user_name = request_data['name']
+        user_surname = request_data['surname']
+        user_uid = request_data['uid']
+        user_avatar = request_data['avatar']
+        user_type = request_data['type']
         cur = db.cursor()
         cur.execute(''' INSERT INTO  users
                     (name,surname,uid,avatar,type)
