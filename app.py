@@ -325,8 +325,8 @@ def getAllTrips():
        content = {}
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
-# Getting all trips
-@app.route("/api/get/trips/sort/<sorted>")
+# Getting sorted trips
+@app.route("/api/get/sort/trips/<sorted>")
 def getAllTripsSorted(sorted):
    cur = db.cursor()
    cur.execute('''
@@ -386,7 +386,6 @@ def getPageTrips(id):
        payload.append(content)
        content = {}
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
-
 
 # Adding new trip
 @app.route("/api/add/trip", methods = ['POST', 'GET'])
@@ -507,6 +506,9 @@ def editTripScheduler(id):
                     meeting_point,meeting_point_lat,meeting_point_lng,seats,id))
         db.commit()
         return jsonify(success)
+
+
+
 
 app.run(host='0.0.0.0', port=7000)
 
