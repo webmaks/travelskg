@@ -325,6 +325,35 @@ def getAllTrips():
        content = {}
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+# Getting all trips
+@app.route("/api/get/trips/sort/<sorted>")
+def getAllTripsSorted(sorted):
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM  trip
+               ORDER by %s ''',(sorted,))
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                    'description': result[1],
+                    'location': result[2],
+                    'region': result[3],
+                    'type': result[4],
+                    'duration_time': result[5],
+                    'duration_route': result[6],
+                    'difficulty': result[7],
+                    'climb': result[8],
+                    'requirement': result[9],
+                    'included': result[10],
+                    'info_mobile': result[11],
+                    'warning': result[12]
+                  }
+       payload.append(content)
+       content = {}
+   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
 # Paginator for trips
 @app.route("/api/get/trips/<id>")
 def getPageTrips(id):
