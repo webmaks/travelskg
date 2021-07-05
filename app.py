@@ -394,7 +394,30 @@ def addTrip():
         db.commit()
         return  jsonify(success)
 
-
+# Getting all trip_schedules
+@app.route("/api/get/trip_scheduler")
+def getAllTripScheduler():
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM  trip_scheduler
+               ''')
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                    'trip_id': result[1],
+                    'start_datetime': result[2],
+                    'finish_datetime': result[3],
+                    'price': result[4],
+                    'meeting_point': result[5],
+                    'meeting_point_lat': result[6],
+                    'meeting_point_lng': result[7],
+                    'seats': result[8],
+                  }
+       payload.append(content)
+       content = {}
+   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 
 app.run(host='0.0.0.0', port=7000)
