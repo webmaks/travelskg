@@ -477,5 +477,36 @@ def addTripScheduler():
         db.commit()
         return  jsonify(success)
 
+# Eding trip_scheduler
+@app.route("/api/edit/trip_scheduler/<id>", methods = ['POST', 'GET'])
+def editTripScheduler(id):
+    if request.method == 'GET':
+        return "This method is not allowed"
+    if request.method == 'POST':
+        request_data = request.get_json()
+
+        trip_id = request_data['trip_id']
+        start_datetime = request_data['start_datetime']
+        finish_datetime = request_data['finish_datetime']
+        price = request_data['price']
+        meeting_point = request_data['meeting_point']
+        meeting_point_lat = request_data['meeting_point_lat']
+        meeting_point_lng = request_data['meeting_point_lng']
+        seats = request_data['seats']
+        cur = db.cursor()
+        cur.execute(''' UPDATE trip_scheduler SET trip_id = %s,
+                    start_datetime = %s,
+                    finish_datetime = %s,
+                    price = %s,
+                    meeting_point = %s,
+                    meeting_point_lat = %s,
+                    meeting_point_lng = %s,
+                    seats = %s
+                    WHERE id = %s ''',
+                    (trip_id,start_datetime,finish_datetime,price,
+                    meeting_point,meeting_point_lat,meeting_point_lng,seats,id))
+        db.commit()
+        return jsonify(success)
+
 app.run(host='0.0.0.0', port=7000)
 
