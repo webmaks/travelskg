@@ -448,6 +448,34 @@ def getAllTripScheduler():
        content = {}
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+# Adding new trip_schedules
+@app.route("/api/add/trip_scheduler")
+def addTripScheduler():
+    if request.method == 'GET':
+        return "This method is not allowed"
+    if request.method == 'POST':
+        request_data = request.get_json()
+        trip_id = request_data['trip_id']
+        start_datetime = request_data['start_datetime']
+        finish_datetime = request_data['finish_datetime']
+        price = request_data['price']
+        meeting_point = request_data['meeting_point']
+        meeting_point_lat = request_data['meeting_point_lat']
+        meeting_point_lng = request_data['meeting_point_lng']
+        seats = request_data['seats']
+
+        cur = db.cursor()
+        cur.execute(''' INSERT INTO  trip_scheduler
+                    (trip_id, start_datetime, finish_datetime,
+                    price,meeting_point,meeting_point_lat,
+                    meeting_point_lng,seats)
+                    VALUES (%s,%s,%s,%s,
+                            %s,%s,%s,%s) ''',
+                    (trip_id, start_datetime, finish_datetime,
+                    price,meeting_point,meeting_point_lat,
+                    meeting_point_lng,seats))
+        db.commit()
+        return  jsonify(success)
 
 app.run(host='0.0.0.0', port=7000)
 
