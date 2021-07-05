@@ -155,7 +155,7 @@ def editCompany(id):
         db.commit()
         return jsonify(success)
 
-# Delete company 
+# Delete company
 @app.route("/api/del/company/<id>", methods = ['POST', 'GET'])
 def delCompany(id):
 
@@ -328,11 +328,12 @@ def getAllTrips():
 # Paginator for trips
 @app.route("/api/get/trips/<id>")
 def getPageTrips(id):
-   cnt = id + 5
+   startPage = int(id) * 5
+   endPage = startPage + 5
    cur = db.cursor()
    cur.execute('''
                SELECT * FROM  trip
-               WHERE id >= %s and id <= %s''',(id, cnt))
+               WHERE id >= %s and id <= %s ''',(startPage, endPage))
    rv = cur.fetchall()
    payload = []
    content = {}
