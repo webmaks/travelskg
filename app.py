@@ -36,7 +36,9 @@ def getAllCompany():
                   'name': result[1],
                   'description': result[2],
                   'mobile': result[3],
-                  'instagram': result[4]
+                  'instagram': result[4],
+                  'user_id': result[5],
+                  'logo': result[6]
                   }
        payload.append(content)
        content = {}
@@ -57,7 +59,9 @@ def getCompany(id):
                   'name': result[1],
                   'description': result[2],
                   'mobile': result[3],
-                  'instagram': result[4]
+                  'instagram': result[4],
+                  'user_id': result[5],
+                  'logo': result[6]
                   }
        payload.append(content)
        content = {}
@@ -79,7 +83,9 @@ def getCompanyUserID(id):
                   'name': result[1],
                   'description': result[2],
                   'mobile': result[3],
-                  'instagram': result[4]
+                  'instagram': result[4],
+                  'user_id': result[5],
+                  'logo': result[6]
                   }
        payload.append(content)
        content = {}
@@ -93,31 +99,18 @@ def addCompany():
     if request.method == 'POST':
         request_data = request.get_json()
 
-        if "name" in request_data:
-            company_name = request_data['name']
-        else:
-            return jsonify({"error": "Forgot something like na...",}), 403
-
-        if "description" in request_data:
-            company_desc = request_data['description']
-        else:
-            return jsonify({"error": "Forgot something like de...",}), 403
-
-        if "mobile" in request_data:
-            company_mob = request_data['mobile']
-        else:
-            return jsonify({"error": "Forgot something like mo...",}), 403
-
-        if "instagram" in request_data:
-            company_inst = request_data['instagram']
-        else:
-            return jsonify({"error": "Forgot something like in...",}), 403
+        name = request_data['name']
+        description = request_data['description']
+        mobile = request_data['mobile']
+        instagram = request_data['instagram']
+        user_id = request_data['user_id']
+        logo = request_data['logo']
 
         cur = db.cursor()
         cur.execute(''' INSERT INTO company
-                    (name,description,mobile,instagram)
+                    (name,description,mobile,instagram,user_id,logo)
                     VALUES (%s,%s,%s,%s) ''',
-                    (company_name,company_desc,company_mob,company_inst))
+                    (name,description,mobile,instagram,user_id,logo))
         db.commit()
         return f"Done"
 
@@ -129,31 +122,21 @@ def editCompany(id):
     if request.method == 'POST':
         request_data = request.get_json()
 
-        if "name" in request_data:
-            company_name = request_data['name']
-        else:
-            return jsonify({"error": "Forgot something like na...",}), 403
-
-        if "description" in request_data:
-            company_desc = request_data['description']
-        else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
-
-        if "mobile" in request_data:
-            company_mob = request_data['mobile']
-        else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
-
-        if "instagram" in request_data:
-            company_inst = request_data['instagram']
-        else:
-            return jsonify({"error": "Forgot something like lo...",}), 403
+        name = request_data['name']
+        description = request_data['description']
+        mobile = request_data['mobile']
+        instagram = request_data['instagram']
+        user_id = request_data['user_id']
+        logo = request_data['logo']
         cur = db.cursor()
         cur.execute(''' UPDATE company SET name = %s,
                     description = %s,
                     mobile = %s,
-                    instagram = %s WHERE id = %s ''',
-                    (company_name,company_desc,company_mob,company_inst,id))
+                    instagram = %s,
+                    user_id = %s,
+                    logo = %s,
+                    WHERE id = %s ''',
+                    (name,description,mobile,instagram,user_id,logo,id))
         db.commit()
         return jsonify(success)
 
@@ -358,6 +341,36 @@ def getAllTripsByCompanyID(id):
        content = {}
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+# Get one trip by ID
+@app.route("/api/get/trip/<id>")
+def getTripByID(id):
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM  trip
+               WHERE id = %s''',(id,))
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                    'description': result[1],
+                    'location': result[2],
+                    'region': result[3],
+                    'type': result[4],
+                    'duration_time': result[5],
+                    'duration_route': result[6],
+                    'difficulty': result[7],
+                    'climb': result[8],
+                    'requirement': result[9],
+                    'included': result[10],
+                    'info_mobile': result[11],
+                    'warning': result[12],
+                    'company_id': result[13],
+                    'main_image': result[14]
+                  }
+       payload.append(content)
+       content = {}
+   return jsonify(payload[0]), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 # Getting sorted trips
 @app.route("/api/get/sort/trips/<sorted>")
