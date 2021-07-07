@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 import mysql.connector as mysql
+import os
+import json
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -506,6 +508,16 @@ def editTripScheduler(id):
                     meeting_point,meeting_point_lat,meeting_point_lng,seats,id))
         db.commit()
         return jsonify(success)
+
+# List directory Files
+@app.route("/api/files/<file>")
+def listFiles(file):
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT + "Files/", "static/data", file)
+    data = json.load(open(json_url))
+    #return render_template('showjson.jade', data=data)
+    return jsonify(data), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
 
 
 
