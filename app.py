@@ -67,7 +67,7 @@ def getCompanyUserID(id):
    cur = db.cursor()
    cur.execute('''
                SELECT * FROM company
-                WHERE id = (SELECT company_id FROM user_company WHERE user_id = %s)
+                WHERE user_id = %s
                ''',(id,))
    rv = cur.fetchall()
    payload = []
