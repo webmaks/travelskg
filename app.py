@@ -327,6 +327,38 @@ def getAllTrips():
        content = {}
    return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+# Get all trips by Company_ID
+@app.route("/api/get/trip/company/<id>")
+def getAllTripsByCompanyID(id):
+   cur = db.cursor()
+   cur.execute('''
+               SELECT * FROM  trip
+               WHERE company_id = %s''',(id,))
+   rv = cur.fetchall()
+   payload = []
+   content = {}
+   for result in rv:
+       content = {'id': result[0],
+                    'description': result[1],
+                    'location': result[2],
+                    'region': result[3],
+                    'type': result[4],
+                    'duration_time': result[5],
+                    'duration_route': result[6],
+                    'difficulty': result[7],
+                    'climb': result[8],
+                    'requirement': result[9],
+                    'included': result[10],
+                    'info_mobile': result[11],
+                    'warning': result[12],
+                    'company_id': result[13],
+                    'main_image': result[14]
+                  }
+       payload.append(content)
+       content = {}
+   return jsonify(payload), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
+
 # Getting sorted trips
 @app.route("/api/get/sort/trips/<sorted>")
 def getAllTripsSorted(sorted):
