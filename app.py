@@ -563,9 +563,5 @@ def listFiles(file):
     #return render_template('showjson.jade', data=data)
     return jsonify(data), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
-
-
-
-
 app.run(host='0.0.0.0', port=7000)
 
